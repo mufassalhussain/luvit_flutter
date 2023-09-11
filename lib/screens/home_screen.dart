@@ -96,6 +96,8 @@ class _HomeScreenState extends State<HomeScreen>
             child: DragWidget(
               draggableItems: (val) {
                 draggableItems.removeAt(val);
+                currentIndex =
+                    calculateNearbyIndex(draggableItems, currentIndex, val);
                 setState(() {});
               },
               profile: draggableItems[currentIndex],
@@ -152,5 +154,19 @@ class _HomeScreenState extends State<HomeScreen>
     } else {
       _animationController.forward();
     }
+  }
+}
+
+int calculateNearbyIndex(
+    List<dynamic> items, int currentIndex, int removedIndex) {
+  if (currentIndex >= items.length) {
+    // If the current index was beyond the list length, set it to the last item.
+    return items.length - 1;
+  } else if (currentIndex <= 0) {
+    // If the current index was before the start of the list, set it to the first item.
+    return 0;
+  } else {
+    // Otherwise, set it to the previous index.
+    return currentIndex - 1;
   }
 }
